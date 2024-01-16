@@ -6,7 +6,7 @@
     "rootDir": "./src",
     "strict": true,
     "esModuleInterop": true,
-    "types": ["swagger-jsdoc", "swagger-ui-express"]
+    "types": ["swagger-jsdoc", "swagger-ui-express", "node", "jest"]
   },
   "include": ["src/**/*.ts", "src/swagger.config.ts"],
   "exclude": ["node_modules"]

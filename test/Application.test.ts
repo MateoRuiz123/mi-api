@@ -4,6 +4,7 @@ import request from 'supertest';
 describe('GET /api/users/:id', () => {
 	it('should return a user', async () => {
 		const response = await request(app).get('/api/users/60c1e1a0a7d5c2f5e8c6c4c0');
+		console.log(response);
 		expect(response.status).toBe(200);
 		expect(response.body).toHaveProperty('status', 'OK');
 		expect(response.body).toHaveProperty('data');
