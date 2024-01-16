@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import userRoutes from './v1/routes/userRoutes';
+import { errorHandler } from './middleware/errorHandler';
 
 export const app = express();
 export const port = 3000;
@@ -14,6 +15,8 @@ db.once('open', () => {
 });
 
 app.use(express.json());
+
+app.use(errorHandler);
 
 // Rutas
 app.use('/api/users', userRoutes);
