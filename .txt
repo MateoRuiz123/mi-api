@@ -1,0 +1,6 @@
+VIDEOS
+
+swagger: https://youtu.be/RayDPBYou4I
+api: https://youtu.be/Damvr9HvRmE?si=I_LQY1gUJlcraF9U
+
+??? : https://www.freecodecamp.org/news/rest-api-design-best-practices-build-a-rest-api/
