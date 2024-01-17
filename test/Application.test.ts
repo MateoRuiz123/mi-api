@@ -23,11 +23,23 @@ describe('POST /api/users', () => {
 		const response = await request(app).post('/api/users').send({
 			name: 'Test',
 			email: 'test@gmail.com',
-			password: '123456',
-			confirmPassword: '123456',
+			password: '12345678',
+			confirmPassword: '12345678',
 			birth_year: 2000
 		});
 		expect(response.status).toBe(201);
 		expect(response.body).toBeDefined();
+	})
+	// error de validación de datos
+	it('should return 400 if data is invalid', async () => {
+		const response = await request(app).post('/api/users').send({
+			name: 'TestDatos',
+			email: 'error@gmail.com',
+			password: '123456',
+			confirmPassword: '123456',
+			birth_year: 200
+		});
+		expect(response.status).toBe(400);
+		expect(response.body.error).toBeDefined();
 	})
 });
