@@ -82,7 +82,7 @@ describe("Error handler middleware", () => {
 });
 
 describe("GET /docs", () => {
-  it("retoena Swagger UI", async () => {
+  it("retorna Swagger UI", async () => {
     swaggerDocs({ app, port: 3000 });
     const response = await request(app).get("/docs/");
 
