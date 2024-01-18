@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { app } from "../src";
 import request from "supertest";
 import { errorHandler } from "../src/middleware/errorHandler";
+import { swaggerDocs } from "../src/v1/swagger";
 
 describe("GET /api/users/:id", () => {
   it("should return a user", async () => {
@@ -77,5 +78,38 @@ describe("Error handler middleware", () => {
     expect(mockResponse.status).toHaveBeenCalledWith(500);
     expect(mockResponse.send).toHaveBeenCalledWith("Something broke!");
     expect(nextFunction).not.toHaveBeenCalled();
+  });
+});
+
+describe("GET /docs", () => {
+  it("retoena Swagger UI", async () => {
+    swaggerDocs({ app, port: 3000 });
+    const response = await request(app).get("/docs/");
+
+    expect(response.status).toBe(200);
+    expect(response.text).toContain("<title>Swagger UI</title>");
+  });
+});
+
+describe("GET /docs.json", () => {
+  it("debería devolver la especificación Swagger JSON", async () => {
+    swaggerDocs({ app, port: 3000 });
+
+    const response = await request(app).get("/docs.json");
+
+    expect(response.status).toBe(200);
+    expect(response.type).toBe("application/json");
+    expect(response.body).toMatchObject({
+      openapi: "3.0.0",
+      info: {
+        title: "API",
+        version: "1.0.0",
+      },
+      servers: [
+        {
+          url: "http://localhost:3000",
+        },
+      ],
+    });
   });
 });
