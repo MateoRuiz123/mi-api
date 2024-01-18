@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { app } from "../src";
 import request from "supertest";
-import HttpException from "../src/common/http-exception";
 import { errorHandler } from "../src/middleware/errorHandler";
 
 describe("GET /api/users/:id", () => {
@@ -53,13 +52,6 @@ describe("POST /api/users", () => {
 });
 
 describe("Error handler middleware", () => {
-  const error: HttpException = {
-    name: "error",
-    statusCode: 500,
-    status: 1,
-    message: "string",
-    error: "string",
-  };
   let mockRequest: Partial<Request>;
   let mockResponse: Partial<Response>;
   let nextFunction: NextFunction = jest.fn();
@@ -72,16 +64,18 @@ describe("Error handler middleware", () => {
     };
   });
 
-  test("handle error when error includes statusCode", async () => {
+  test("handle error when error is a generic Error object", async () => {
+    const error = new Error("Test error");
+
     errorHandler(
-      error as HttpException,
+      error,
       mockRequest as Request,
       mockResponse as Response,
       nextFunction
     );
 
     expect(mockResponse.status).toHaveBeenCalledWith(500);
-    expect(mockResponse.send).toHaveBeenCalledWith(error);
+    expect(mockResponse.send).toHaveBeenCalledWith("Something broke!");
     expect(nextFunction).not.toHaveBeenCalled();
   });
 });
